@@ -1,0 +1,1 @@
+import{j as u,k as o,U as _,l as t,m as g,C as m,O as a,v as i,s as d,w as p}from"./BEW_GRxn.js";function E(n,r){let s=null,f=t;var l;if(t){s=p;for(var e=g(document.head);e!==null&&(e.nodeType!==m||e.data!==n);)e=a(e);if(e===null)i(!1);else{var y=a(e);e.remove(),d(y)}}t||(l=document.head.appendChild(u()));try{o(()=>r(l),_)}finally{f&&(i(!0),d(s))}}export{E as h};

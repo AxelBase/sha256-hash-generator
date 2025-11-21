@@ -1,0 +1,152 @@
+/* src/app.css */
+:root {
+  --ochre-primary: #955F20;
+  --ochre-hover: #7a4b17;
+  --ochre-light: #f4eadd;
+  --bg-off-white: #fdfbf7;
+  --text-dark: #4a4a4a;
+  --radius-bubble: 20px;
+  --radius-pill: 50px;
+  --shadow-soft: 0 10px 30px -5px rgba(149, 95, 32, 0.15);
+  --shadow-hover: 0 15px 35px -5px rgba(149, 95, 32, 0.25);
+}
+
+body {
+  background-color: var(--bg-off-white);
+  color: var(--text-dark);
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  overflow-x: hidden;
+}
+
+/* --- Typography & Utilities --- */
+h1, h2, h3, h4, h5, h6 {
+  color: var(--ochre-primary);
+}
+
+.text-primary {
+  color: var(--ochre-primary) !important;
+}
+
+.bg-primary {
+  background-color: var(--ochre-primary) !important;
+}
+
+/* --- Bubbly Components --- */
+.card {
+  border: none;
+  border-radius: var(--radius-bubble);
+  box-shadow: var(--shadow-soft);
+  background: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-hover);
+}
+
+.card-header {
+  background-color: var(--ochre-primary);
+  color: white;
+  border-bottom: none;
+  padding: 1rem 1.5rem;
+  font-weight: 600;
+}
+
+.form-control {
+  border-radius: 15px;
+  border: 2px solid #e0e0e0;
+  padding: 1rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--ochre-primary);
+  box-shadow: 0 0 0 0.25rem rgba(149, 95, 32, 0.15);
+}
+
+/* --- Buttons --- */
+.btn {
+  border-radius: var(--radius-pill);
+  padding: 0.6rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Bouncy transition */
+}
+
+.btn-primary {
+  background-color: var(--ochre-primary);
+  border-color: var(--ochre-primary);
+}
+
+.btn-primary:hover {
+  background-color: var(--ochre-hover);
+  border-color: var(--ochre-hover);
+  transform: scale(1.05);
+}
+
+.btn-outline-primary {
+  color: var(--ochre-primary);
+  border-color: var(--ochre-primary);
+}
+
+.btn-outline-primary:hover {
+  background-color: var(--ochre-primary);
+  color: white;
+  transform: scale(1.05);
+}
+
+/* --- Hashing Specifics --- */
+.hash-output {
+  font-family: 'Courier New', monospace;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  word-break: break-all;
+  background: var(--bg-off-white);
+  padding: 1.2rem;
+  border-radius: 15px;
+  border: 2px dashed #e0e0e0;
+  color: var(--text-dark);
+}
+
+.copied-feedback {
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  font-weight: 600;
+  color: #198754;
+  background: white;
+  padding: 2px 8px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.copied-feedback.show {
+  opacity: 1;
+}
+
+.match-indicator {
+  font-size: 1.4rem;
+  transition: all 0.3s ease;
+}
+.match-indicator.match { color: #198754; }
+.match-indicator.mismatch { color: #dc3545; }
+.match-indicator.empty { color: #6c757d; }
+
+.byte-counter {
+  font-family: 'Courier New', monospace;
+  color: #888;
+  font-size: 0.85rem;
+}
+
+/* --- Animations --- */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+/* Ensure fixed footer doesn't cover content */
+.content-wrapper {
+  padding-top: 90px; /* space for sticky nav */
+  padding-bottom: 80px; /* space for fixed footer */
+}
