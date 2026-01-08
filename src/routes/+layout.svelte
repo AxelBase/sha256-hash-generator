@@ -3,8 +3,7 @@
   import { base } from '$app/paths';
   import { fly } from 'svelte/transition';
 
-  const paypalUsername = 'AxelLab427';
-  const donationAmounts = [1, 3, 5, 10];
+  const currentYear = new Date().getFullYear();
 
   let isDropdownOpen = false;
 
@@ -23,7 +22,11 @@
       }
     };
     document.addEventListener('click', handleClick, true);
-    return { destroy() { document.removeEventListener('click', handleClick, true); } };
+    return {
+      destroy() {
+        document.removeEventListener('click', handleClick, true);
+      }
+    };
   }
 </script>
 
@@ -39,27 +42,45 @@
         <div class="d-none d-md-block border-end mx-2" style="height: 24px; border-color: #ddd;"></div>
 
         <div class="position-relative" use:clickOutside on:click_outside={closeDropdown}>
-          <button class="btn btn-bmac d-flex align-items-center gap-2" on:click={toggleDropdown}>
-            <i class="bi bi-cup-hot-fill"></i>
-            <span class="d-none d-sm-inline">Coffee?</span>
+          <button
+            class="bmac-button d-flex align-items-center gap-2 text-white border-0 shadow-sm"
+            on:click={toggleDropdown}
+            aria-label="Support options"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M2,21V19H20V21H2M20,8V5H4V8H20M20,10H4V13C4,14.38 4.5,15.63 5.31,16.58L11.64,19H12.36L18.69,16.58C19.5,15.63 20,14.38 20,13V10M16,2H8V4H16V2Z" />
+            </svg>
+            <span class="d-none d-sm-inline fw-semibold">Buy me a Coffee</span>
           </button>
 
           {#if isDropdownOpen}
-            <div class="bmac-dropdown shadow" transition:fly={{ y: -10, duration: 250 }}>
-              <div class="d-grid gap-2">
-                {#each donationAmounts as amount}
-                  <a href="https://paypal.me/{paypalUsername}/{amount}" target="_blank" rel="noopener noreferrer"
-                     class="dropdown-item rounded" on:click={closeDropdown}>
-                    ${amount}
-                  </a>
-                {/each}
-              </div>
+            <div class="bmac-dropdown mt-2 shadow" transition:fly={{ y: -10, duration: 250 }}>
+              <a href="https://buymeacoffee.com/axelbase" target="_blank" rel="noopener" on:click={closeDropdown}>
+                <span class="amount">$3</span> One Coffee
+              </a>
+              <a href="https://buymeacoffee.com/axelbase" target="_blank" rel="noopener" on:click={closeDropdown}>
+                <span class="amount">$5</span> Two Coffees
+              </a>
+              <a href="https://buymeacoffee.com/axelbase" target="_blank" rel="noopener" on:click={closeDropdown}>
+                <span class="amount">$10</span> Three Coffees
+              </a>
+
+              <a href="https://buymeacoffee.com/axelbase" target="_blank" rel="noopener" on:click={closeDropdown} class="custom-amount">
+                Custom Amount
+              </a>
+
+              <a
+                href="bitcoin:bc1q3p0e6vt492m4w4fpz5m2cl4zcfuqqkgaj6myc9?label=AxelBase&message=Buy%20me%20a%20coffee"
+                on:click={closeDropdown}
+                class="custom-amount"
+              >
+                Buy via Crypto (Bitcoin)
+              </a>
             </div>
           {/if}
         </div>
       </div>
 
-      <!-- Fixed: aria-label added -->
       <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
               aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -86,7 +107,7 @@
 
 <footer class="releative bg-white border-top py-3 shadow-lg">
   <div class="container d-flex justify-content-between align-items-center text-muted small">
-    <div>&copy; {new Date().getFullYear()} <strong>AxelBase</strong> Text SHA-256 Hash Generator.</div>
+    <div>&copy; {currentYear} <strong>AxelBase</strong> Text SHA-256 Hash Generator.</div>
     <div class="d-flex gap-3">
       <a href="{base}/privacy" class="text-decoration-none text-muted hover-ochre">Privacy</a>
       <a href="{base}/terms" class="text-decoration-none text-muted hover-ochre">Terms</a>
@@ -95,17 +116,116 @@
 </footer>
 
 <style>
-  /* Same styles as before — unchanged */
-  header nav { background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(149,95,32,0.1); padding: 0.75rem 0; transition: padding .3s; }
-  .nav-link { color: var(--text-dark); position: relative; transition: color .3s; }
-  .nav-link:hover, .nav-link:focus { color: var(--ochre-primary); }
-  .nav-link::after { content: ''; position: absolute; width: 0; height: 2px; bottom: 0; left: 0; background-color: var(--ochre-primary); transition: width .3s; }
-  .nav-link:hover::after { width: 100%; }
-  .nav-link.btn::after { display: none; }
-  .btn-bmac { background-color: #FFDD00; color: #000; border: none; border-radius: 50px; font-weight: 600; font-size: .9rem; padding: .4rem 1rem; box-shadow: 0 4px 10px rgba(255,221,0,.3); }
-  .btn-bmac:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(255,221,0,.4); background-color: #ffea5c; }
-  .bmac-dropdown { position: absolute; top: 120%; left: 0; background: white; border-radius: 15px; padding: .5rem; width: 120px; z-index: 1050; border: 1px solid #f0f0f0; }
-  .dropdown-item { display: block; padding: .5rem 1rem; text-decoration: none; color: var(--text-dark); transition: background .2s; text-align: center; font-weight: bold; }
-  .dropdown-item:hover { background-color: var(--ochre-light); color: var(--ochre-primary); }
-  .hover-ochre:hover { color: var(--ochre-primary) !important; }
+  /* Existing navbar styles remain unchanged */
+  header nav { 
+    background: rgba(255,255,255,0.9); 
+    backdrop-filter: blur(10px); 
+    border-bottom: 1px solid rgba(149,95,32,0.1); 
+    padding: 0.75rem 0; 
+    transition: padding .3s; 
+  }
+  .nav-link { 
+    color: var(--text-dark); 
+    position: relative; 
+    transition: color .3s; 
+  }
+  .nav-link:hover, .nav-link:focus { 
+    color: var(--ochre-primary); 
+  }
+  .nav-link::after { 
+    content: ''; 
+    position: absolute; 
+    width: 0; 
+    height: 2px; 
+    bottom: 0; 
+    left: 0; 
+    background-color: var(--ochre-primary); 
+    transition: width .3s; 
+  }
+  .nav-link:hover::after { 
+    width: 100%; 
+  }
+  .nav-link.btn::after { 
+    display: none; 
+  }
+  .hover-ochre:hover { 
+    color: var(--ochre-primary) !important; 
+  }
+
+  /* BMAC Button & Dropdown – Keeping File 1's visual style, adapted to ochre theme */
+  .bmac-button {
+    background: var(--ochre-primary);
+    font-size: 0.95rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: 50px; /* pill shape */
+    transition: all 0.3s ease;
+  }
+
+  .bmac-button:hover {
+    background: var(--ochre-hover);
+    transform: translateY(-2px);
+  }
+
+  .bmac-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 240px;
+    background: white;
+    border-radius: 16px;
+    box-shadow: 0 12px 32px rgba(149, 95, 32, 0.15);
+    overflow: hidden;
+    border: 1px solid rgba(149, 95, 32, 0.1);
+    z-index: 1050;
+  }
+
+  .bmac-dropdown a {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    color: #333;
+    text-decoration: none;
+    font-size: 0.98rem;
+    transition: all 0.2s ease;
+  }
+
+  .bmac-dropdown a:hover {
+    background: var(--ochre-light);
+    color: var(--ochre-primary);
+    padding-left: 28px;
+  }
+
+  .bmac-dropdown .amount {
+    font-weight: 700;
+    color: var(--ochre-primary);
+    font-size: 1.1rem;
+  }
+
+  .bmac-dropdown a:hover .amount {
+    color: var(--ochre-primary);
+  }
+
+  .bmac-dropdown .custom-amount {
+    font-weight: 600;
+    color: var(--ochre-primary);
+    border-top: 1px solid #eee;
+    justify-content: center !important;
+  }
+
+  .bmac-dropdown .custom-amount:hover {
+    background: var(--ochre-light);
+    color: var(--ochre-primary);
+  }
+
+  /* Responsive text hide on small screens (as in File 1) */
+  @media (max-width: 576px) {
+    .bmac-button span {
+      display: none;
+    }
+    .bmac-button {
+      padding: 0.5rem 0.8rem;
+    }
+  }
 </style>
